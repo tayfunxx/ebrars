@@ -5,116 +5,120 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ebrar</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-  background:#0b0b11;
+  background:#050507; /* Daha derin bir siyah */
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   overflow:hidden;
-  font-family:'Cormorant Garamond',serif;
+  font-family:'Cinzel', serif; /* Yazı tipini değiştirdim */
   color:white;
 }
 
-/* Vignette */
+/* Vignette - Sinematik derinlik için */
 body::before{
   content:"";
   position:absolute;
   width:100%;
   height:100%;
-  background:radial-gradient(circle,transparent 40%,rgba(0,0,0,0.9));
+  background:radial-gradient(circle, transparent 20%, rgba(0,0,0,0.95) 90%);
   pointer-events:none;
 }
 
-/* Film Grain */
+/* Film Grain - Eskitme efekti */
 body::after{
   content:"";
   position:absolute;
-  width:200%;
-  height:200%;
+  width:100%;
+  height:100%;
   background-image:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:0.04;
+  opacity:0.03; /* Biraz daha azalttım */
   pointer-events:none;
 }
 
-/* Scene */
+/* Scene - Geçişleri daha yavaş ve sinematik yaptık */
 .scene{
   position:absolute;
   text-align:center;
   opacity:0;
-  transform:translateY(20px) scale(1.02);
-  transition:2.5s ease;
+  transform:scale(0.95);
+  transition: opacity 2s ease, transform 3s ease; /* Yavaş geçiş */
+  visibility: hidden;
+  z-index: 1;
 }
 
 .scene.active{
   opacity:1;
-  transform:translateY(0) scale(1);
+  transform:scale(1);
+  visibility: visible;
+  z-index: 2;
 }
 
 h1{
-  font-size:80px;
-  letter-spacing:10px;
-  font-weight:400;
+  font-size: 60px;
+  letter-spacing: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(255,255,255,0.3); /* Hafif parlama */
 }
 
 p{
-  margin-top:30px;
-  font-size:20px;
-  letter-spacing:4px;
+  margin-top:20px;
+  font-size:18px;
+  letter-spacing:6px;
   opacity:0.7;
+  font-family: 'Georgia', serif;
 }
 
 /* Enter Button */
 button{
-  margin-top:70px;
-  padding:12px 35px;
-  border:1px solid rgba(255,255,255,0.5);
+  margin-top:50px;
+  padding:15px 40px;
+  border:1px solid rgba(255,255,255,0.3);
   background:transparent;
   color:white;
-  letter-spacing:4px;
+  letter-spacing:5px;
   cursor:pointer;
-  transition:0.4s;
+  transition:0.5s;
+  font-family: 'Cinzel', serif;
 }
 
 button:hover{
   background:white;
   color:black;
+  border:1px solid white;
 }
 </style>
 </head>
 
 <body>
 
-<!-- SCENE 1 -->
 <div class="scene active" id="scene1">
   <h1>EBRAR</h1>
   <p>Her hikaye bir an ile başlar…</p>
-  <button onclick="nextScene()">ENTER</button>
+  <button onclick="startExperience()">ENTER</button>
 </div>
 
-<!-- SCENE 2 -->
 <div class="scene" id="scene2">
   <h1>Senden geçemiyorum.</h1>
 </div>
 
-<!-- SCENE 3 -->
 <div class="scene" id="scene3">
   <h1>Çünkü kalbim…</h1>
 </div>
 
-<!-- SCENE 4 -->
 <div class="scene" id="scene4">
   <h1>Sana ait.</h1>
 </div>
 
-<!-- SCENE 5 -->
 <div class="scene" id="scene5">
-  <h1 style="font-size:60px;letter-spacing:6px;">Tayfun</h1>
+  <h1 style="font-size:40px; letter-spacing:15px;">TAYFUN</h1>
 </div>
 
 <audio id="bgMusic" loop>
@@ -122,24 +126,25 @@ button:hover{
 </audio>
 
 <script>
-let current=1;
-
-function nextScene(){
-
-  let music=document.getElementById("bgMusic");
-  music.volume=0.15;
+function startExperience(){
+  let music = document.getElementById("bgMusic");
+  music.volume = 0.3;
   music.play();
 
+  // İlk sahneyi gizle
   document.getElementById("scene1").classList.remove("active");
 
-  setTimeout(()=>showScene(2),2000);
-  setTimeout(()=>showScene(3),6000);
-  setTimeout(()=>showScene(4),10000);
-  setTimeout(()=>showScene(5),14000);
+  // Sıralı sahneler
+  setTimeout(()=>showScene(2), 2000);
+  setTimeout(()=>showScene(3), 6000);
+  setTimeout(()=>showScene(4), 10000);
+  setTimeout(()=>showScene(5), 14000);
 }
 
 function showScene(num){
-  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  // Tüm sahneleri gizle
+  document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+  // İlgili sahneyi göster
   document.getElementById("scene"+num).classList.add("active");
 }
 </script>
