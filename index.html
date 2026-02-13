@@ -4,11 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ebrar & Tayfun</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
 body{
-  margin:0;
   font-family:'Poppins',sans-serif;
   background:black;
   color:white;
@@ -19,7 +21,7 @@ body{
 .section{
   position:absolute;
   width:100%;
-  height:100%;
+  height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -32,8 +34,12 @@ body{
   pointer-events:none;
 }
 
+h1,h2,p{
+  margin:15px;
+}
+
 button{
-  padding:12px 30px;
+  padding:12px 28px;
   font-size:18px;
   border:none;
   border-radius:30px;
@@ -50,18 +56,12 @@ button{
 .danger{
   background:#ff4d6d;
   color:white;
-  position:relative;
-}
-
-#final{
-  font-size:28px;
-  font-weight:600;
+  position:absolute;
 }
 
 .heart{
   position:absolute;
   color:#ff4d6d;
-  font-size:20px;
   animation:float 6s linear infinite;
 }
 
@@ -74,18 +74,89 @@ button{
 
 <body>
 
-<!-- 🎬 Açılış -->
+<!-- 🎬 AÇILIŞ -->
 <div id="intro" class="section">
   <h1>Ebrar…</h1>
   <p>Bu sayfa sadece senin için hazırlandı.</p>
-  <button class="primary" onclick="startMovie()">✨ İzlemeye Hazırım</button>
+  <button class="primary" onclick="startExperience()">✨ İzlemeye Hazırım</button>
 </div>
 
-<!-- 🎵 Ana Sahne -->
-<div id="main" class="section hidden">
-  <h2 id="typeText"></h2>
+<!-- 🎵 ANA MESAJ -->
+<div id="message" class="section hidden">
+  <h2 id="typing"></h2>
 </div>
 
-<!-- 💍 Final -->
+<!-- 💍 TEKLİF -->
 <div id="proposal" class="section hidden">
-  <div id="final">Benimle sonsuza kadar olur musun? 💍
+  <h2>Benimle sonsuza kadar olur musun? 💍</h2>
+  <button class="primary" onclick="celebrate()">💖 Evet</button>
+  <button class="danger" onmouseover="moveButton(this)">Hayır</button>
+</div>
+
+<!-- 🎉 FİNAL -->
+<div id="final" class="section hidden">
+  <h1>Sonsuza kadar Tayfun 💙 Ebrar</h1>
+</div>
+
+<!-- 🎵 YOUTUBE MÜZİK (27. saniye) -->
+<div id="music" style="display:none;">
+  <iframe width="0" height="0"
+  src="https://www.youtube.com/embed/Y9AXKgqGwN4?start=27&autoplay=1"
+  frameborder="0"
+  allow="autoplay">
+  </iframe>
+</div>
+
+<script>
+
+function startExperience(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("music").style.display="block";
+  document.getElementById("message").classList.remove("hidden");
+  typeWriter("Senden geçemiyorum ben… Çünkü kalbim sana ait.", 60);
+
+  setTimeout(()=>{
+    document.getElementById("message").classList.add("hidden");
+    document.getElementById("proposal").classList.remove("hidden");
+  },6000);
+}
+
+function typeWriter(text, speed){
+  let i=0;
+  function typing(){
+    if(i<text.length){
+      document.getElementById("typing").innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typing,speed);
+    }
+  }
+  typing();
+}
+
+function moveButton(btn){
+  btn.style.top=Math.random()*80+"%";
+  btn.style.left=Math.random()*80+"%";
+}
+
+function celebrate(){
+  document.getElementById("proposal").classList.add("hidden");
+  document.getElementById("final").classList.remove("hidden");
+  createHearts();
+}
+
+function createHearts(){
+  for(let i=0;i<40;i++){
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=(Math.random()*20+10)+"px";
+    heart.style.animationDuration=(Math.random()*3+3)+"s";
+    document.body.appendChild(heart);
+  }
+}
+
+</script>
+
+</body>
+</html>
