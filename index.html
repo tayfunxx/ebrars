@@ -3,219 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ebrar & Tayfun</title>
+<title>Ebrar</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
+  background:#0a0a0f;
   height:100vh;
-  background:radial-gradient(circle at top,#1a1a2e,#0f0f1b);
   display:flex;
   justify-content:center;
   align-items:center;
   overflow:hidden;
-  font-family:'Cormorant Garamond',serif;
-  color:#f5f5f5;
+  font-family:'Playfair Display', serif;
+  color:white;
 }
 
-/* Açılış fade */
-#fade{
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:black;
-  z-index:999;
-  animation:fadeOut 3s forwards;
-}
-
-@keyframes fadeOut{
-  to{opacity:0;visibility:hidden;}
-}
-
-/* Parıltı */
-body::before{
+/* Film grain */
+body::after{
   content:"";
   position:absolute;
   width:200%;
   height:200%;
-  background:radial-gradient(circle,rgba(255,215,0,0.08) 1px,transparent 1px);
-  background-size:40px 40px;
-  animation:move 50s linear infinite;
+  background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:0.05;
+  pointer-events:none;
 }
 
-@keyframes move{
-  from{transform:translate(0,0);}
-  to{transform:translate(-300px,-300px);}
-}
-
-/* Kart */
-.card{
-  position:relative;
-  background:rgba(255,255,255,0.05);
-  padding:70px 90px;
-  border-radius:25px;
-  backdrop-filter:blur(25px);
-  box-shadow:0 20px 60px rgba(0,0,0,0.7);
+/* Fade intro */
+#intro{
   text-align:center;
-  max-width:650px;
-  border:1px solid rgba(255,215,0,0.4);
-  animation:cardAppear 2s ease;
+  opacity:0;
+  transform:scale(0.9);
+  animation:introAnim 4s ease forwards;
 }
 
-@keyframes cardAppear{
-  from{transform:translateY(40px);opacity:0;}
-  to{transform:translateY(0);opacity:1;}
+@keyframes introAnim{
+  0%{opacity:0;transform:scale(1.1);}
+  100%{opacity:1;transform:scale(1);}
 }
 
-.signature{
-  font-family:'Great Vibes',cursive;
-  font-size:64px;
-  color:#ffd700;
-  margin-bottom:20px;
-  animation:glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes glow{
-  from{text-shadow:0 0 10px #ffd700;}
-  to{text-shadow:0 0 25px #ffd700;}
-}
-
-h2{
-  font-size:28px;
-  margin-bottom:25px;
+h1{
+  font-size:60px;
+  letter-spacing:6px;
   font-weight:400;
 }
 
 p{
+  margin-top:20px;
   font-size:18px;
-  margin-bottom:40px;
+  letter-spacing:3px;
+  opacity:0.7;
 }
 
-button{
-  padding:14px 36px;
-  border:none;
-  border-radius:40px;
-  font-size:16px;
+#next{
+  position:absolute;
+  bottom:60px;
+  font-size:14px;
+  letter-spacing:4px;
+  opacity:0.4;
   cursor:pointer;
-  margin:10px;
-  transition:0.4s;
-}
-
-.primary{
-  background:linear-gradient(45deg,#d4af37,#ffd700);
-  color:#1a1a2e;
-  font-weight:bold;
-}
-
-.primary:hover{
-  transform:scale(1.1);
-}
-
-.secondary{
-  background:transparent;
-  border:1px solid #ffd700;
-  color:#ffd700;
-  position:absolute;
-}
-
-.hidden{
-  display:none;
-}
-
-/* Altın patlama */
-.spark{
-  position:absolute;
-  width:6px;
-  height:6px;
-  background:#ffd700;
-  border-radius:50%;
-  animation:explode 1s ease-out forwards;
-}
-
-@keyframes explode{
-  to{
-    transform:translate(var(--x),var(--y));
-    opacity:0;
-  }
 }
 </style>
 </head>
 
 <body>
 
-<div id="fade"></div>
-
-<div class="card" id="intro">
-  <div class="signature">Ebrar & Tayfun</div>
-  <h2>Özel Bir Davet</h2>
-  <p>Kalbimin en özel insanına...</p>
-  <button class="primary" onclick="start()">Daveti Aç</button>
+<div id="intro">
+  <h1>EBRAR</h1>
+  <p>Bir hikaye böyle başladı…</p>
 </div>
 
-<div class="card hidden" id="proposal">
-  <div class="signature">Ebrar</div>
-  <p>Senden geçemiyorum ben…  
-  Çünkü ruhum artık seninle tamam.</p>
-  <h2>Benimle sonsuza kadar olur musun? 💍</h2>
-  <button class="primary" onclick="yes()">Evet</button>
-  <button class="secondary" onmouseover="moveBtn(this)">Hayır</button>
-</div>
-
-<div class="card hidden" id="final">
-  <div class="signature">Sonsuza Kadar</div>
-  <h2>Tayfun 💙 Ebrar</h2>
+<div id="next" onclick="nextScene()">
+  TAP TO CONTINUE
 </div>
 
 <audio id="bgMusic" loop>
-  <source src="muzik.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5bcb7df3c4.mp3?filename=emotional-piano-ambient-110624.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-function start(){
-  document.getElementById("intro").classList.add("hidden");
-  document.getElementById("proposal").classList.remove("hidden");
-  fadeMusic();
-}
+let started=false;
 
-function yes(){
-  document.getElementById("proposal").classList.add("hidden");
-  document.getElementById("final").classList.remove("hidden");
-  goldExplosion();
-}
-
-function moveBtn(btn){
-  btn.style.top=Math.random()*80+"%";
-  btn.style.left=Math.random()*80+"%";
-}
-
-function fadeMusic(){
-  let music=document.getElementById("bgMusic");
-  music.volume=0;
-  music.play();
-  let vol=0;
-  let fade=setInterval(()=>{
-    if(vol<1){
-      vol+=0.05;
-      music.volume=vol;
-    }else{
-      clearInterval(fade);
-    }
-  },200);
-}
-
-function goldExplosion(){
-  for(let i=0;i<60;i++){
-    let spark=document.createElement("div");
-    spark.className="spark";
-    spark.style.setProperty('--x',(Math.random()*400-200)+"px");
-    spark.style.setProperty('--y',(Math.random()*400-200)+"px");
-    spark.style.left="50%";
-    spark.style.top="50%";
-    document.body.appendChild(spark);
+function nextScene(){
+  if(!started){
+    document.getElementById("bgMusic").volume=0.2;
+    document.getElementById("bgMusic").play();
+    started=true;
   }
+
+  document.body.innerHTML=`
+  <div style="text-align:center;animation:introAnim 4s ease forwards;">
+    <h1 style="font-size:55px;letter-spacing:4px;">Senden geçemiyorum…</h1>
+    <p style="margin-top:25px;font-size:18px;opacity:0.7;">Çünkü kalbim sana ait.</p>
+  </div>
+  `;
 }
 </script>
 
