@@ -5,79 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ebrar</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-  background:#0a0a0f;
+  background:#0b0b11;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
   overflow:hidden;
-  font-family:'Playfair Display', serif;
+  font-family:'Cormorant Garamond',serif;
   color:white;
 }
 
-/* Film grain */
+/* Vignette */
+body::before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle,transparent 40%,rgba(0,0,0,0.9));
+  pointer-events:none;
+}
+
+/* Film Grain */
 body::after{
   content:"";
   position:absolute;
   width:200%;
   height:200%;
   background-image:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:0.05;
+  opacity:0.04;
   pointer-events:none;
 }
 
-/* Fade intro */
-#intro{
+/* Scene */
+.scene{
+  position:absolute;
   text-align:center;
   opacity:0;
-  transform:scale(0.9);
-  animation:introAnim 4s ease forwards;
+  transform:translateY(20px) scale(1.02);
+  transition:2.5s ease;
 }
 
-@keyframes introAnim{
-  0%{opacity:0;transform:scale(1.1);}
-  100%{opacity:1;transform:scale(1);}
+.scene.active{
+  opacity:1;
+  transform:translateY(0) scale(1);
 }
 
 h1{
-  font-size:60px;
-  letter-spacing:6px;
+  font-size:80px;
+  letter-spacing:10px;
   font-weight:400;
 }
 
 p{
-  margin-top:20px;
-  font-size:18px;
-  letter-spacing:3px;
+  margin-top:30px;
+  font-size:20px;
+  letter-spacing:4px;
   opacity:0.7;
 }
 
-#next{
-  position:absolute;
-  bottom:60px;
-  font-size:14px;
+/* Enter Button */
+button{
+  margin-top:70px;
+  padding:12px 35px;
+  border:1px solid rgba(255,255,255,0.5);
+  background:transparent;
+  color:white;
   letter-spacing:4px;
-  opacity:0.4;
   cursor:pointer;
+  transition:0.4s;
+}
+
+button:hover{
+  background:white;
+  color:black;
 }
 </style>
 </head>
 
 <body>
 
-<div id="intro">
+<!-- SCENE 1 -->
+<div class="scene active" id="scene1">
   <h1>EBRAR</h1>
-  <p>Bir hikaye böyle başladı…</p>
+  <p>Her hikaye bir an ile başlar…</p>
+  <button onclick="nextScene()">ENTER</button>
 </div>
 
-<div id="next" onclick="nextScene()">
-  TAP TO CONTINUE
+<!-- SCENE 2 -->
+<div class="scene" id="scene2">
+  <h1>Senden geçemiyorum.</h1>
+</div>
+
+<!-- SCENE 3 -->
+<div class="scene" id="scene3">
+  <h1>Çünkü kalbim…</h1>
+</div>
+
+<!-- SCENE 4 -->
+<div class="scene" id="scene4">
+  <h1>Sana ait.</h1>
+</div>
+
+<!-- SCENE 5 -->
+<div class="scene" id="scene5">
+  <h1 style="font-size:60px;letter-spacing:6px;">Tayfun</h1>
 </div>
 
 <audio id="bgMusic" loop>
@@ -85,21 +122,25 @@ p{
 </audio>
 
 <script>
-let started=false;
+let current=1;
 
 function nextScene(){
-  if(!started){
-    document.getElementById("bgMusic").volume=0.2;
-    document.getElementById("bgMusic").play();
-    started=true;
-  }
 
-  document.body.innerHTML=`
-  <div style="text-align:center;animation:introAnim 4s ease forwards;">
-    <h1 style="font-size:55px;letter-spacing:4px;">Senden geçemiyorum…</h1>
-    <p style="margin-top:25px;font-size:18px;opacity:0.7;">Çünkü kalbim sana ait.</p>
-  </div>
-  `;
+  let music=document.getElementById("bgMusic");
+  music.volume=0.15;
+  music.play();
+
+  document.getElementById("scene1").classList.remove("active");
+
+  setTimeout(()=>showScene(2),2000);
+  setTimeout(()=>showScene(3),6000);
+  setTimeout(()=>showScene(4),10000);
+  setTimeout(()=>showScene(5),14000);
+}
+
+function showScene(num){
+  document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+  document.getElementById("scene"+num).classList.add("active");
 }
 </script>
 
