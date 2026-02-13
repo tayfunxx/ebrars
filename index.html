@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ebrar & Tayfun</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:black;
+  color:white;
+  overflow:hidden;
+  text-align:center;
+}
+
+.section{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  transition:opacity 1.5s ease;
+}
+
+.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+
+button{
+  padding:12px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  margin:10px;
+  transition:0.3s;
+}
+
+.primary{
+  background:white;
+  color:black;
+}
+
+.danger{
+  background:#ff4d6d;
+  color:white;
+  position:relative;
+}
+
+#final{
+  font-size:28px;
+  font-weight:600;
+}
+
+.heart{
+  position:absolute;
+  color:#ff4d6d;
+  font-size:20px;
+  animation:float 6s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎬 Açılış -->
+<div id="intro" class="section">
+  <h1>Ebrar…</h1>
+  <p>Bu sayfa sadece senin için hazırlandı.</p>
+  <button class="primary" onclick="startMovie()">✨ İzlemeye Hazırım</button>
+</div>
+
+<!-- 🎵 Ana Sahne -->
+<div id="main" class="section hidden">
+  <h2 id="typeText"></h2>
+</div>
+
+<!-- 💍 Final -->
+<div id="proposal" class="section hidden">
+  <div id="final">Benimle sonsuza kadar olur musun? 💍
